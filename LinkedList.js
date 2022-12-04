@@ -59,3 +59,35 @@ list.addTohead("world");
 list.addTohead("in");
 list.addToTail("javaScript");
 console.log(list);
+
+class DoublyLinkedList extends LinkedList{
+    addToHead(value){
+      const prevhead = this.head; // storing before the change
+      super.addTohead(value);
+      if(prevhead) prevhead.prev = this.head;
+      return true;
+    }
+    addToTail(){
+      const prevTail = this.tail;
+      super.addToTail(value);
+      if(prevTail) this.tail.prev = prevTail;
+      return true;
+    }
+    removeHead(){
+      const res = super.removeHead();
+      //accessing the newHead to nullify the prev pointer
+      if(this.head && this.head.prev) this.head.prev = null;
+      return res;
+    }
+    removeTail(){
+      if(!this.tail) return null;
+
+      const prevTail = this.tail;
+      if(this.tail === this.head) this.tail = this.head = null;
+      else {
+        this.tail = this.tail.prev;
+        this.tail.next = null;
+      }
+      return prevTail.value;
+    }
+  }
